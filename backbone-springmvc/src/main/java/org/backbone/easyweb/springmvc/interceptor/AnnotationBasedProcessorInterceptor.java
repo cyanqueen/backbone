@@ -110,7 +110,7 @@ public class AnnotationBasedProcessorInterceptor implements HandlerInterceptor {
 
         // print log
         if (!list.isEmpty()) {
-            StringBuilder log = new StringBuilder("Handler interceptors : class=" + clazz.getSimpleName() + ",method=" + method + "[");
+            StringBuffer log = new StringBuffer("Handler interceptors : class=" + clazz.getSimpleName() + ",method=" + method + "[");
             for (int i = 0; i < list.size(); i++) {
                 log.append(list.get(i).getClass().getCanonicalName() + ",");
             }
