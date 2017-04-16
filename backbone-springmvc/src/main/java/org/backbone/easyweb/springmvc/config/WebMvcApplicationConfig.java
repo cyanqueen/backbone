@@ -1,6 +1,7 @@
 package org.backbone.easyweb.springmvc.config;
 
 import org.backbone.easyweb.springmvc.annotation.ScanIgnore;
+import org.backbone.easyweb.springmvc.interceptor.AnnotationBasedProcessorInterceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.PropertiesFactoryBean;
@@ -11,6 +12,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.io.IOException;
@@ -59,6 +61,12 @@ public class WebMvcApplicationConfig extends WebMvcConfigurerAdapter implements 
         return null;
     }
 
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(getAnnotationBasedProcessorInterceptor());
+        LOG.info("AnnotationBasedInterceptor init");
+    }
+
     public void printLog(String name, Resource[] resources) {
         StringBuilder sb = new StringBuilder("Properties are using now: " + name + "[");
         for (int i = 0; i <resources.length;i ++) {
@@ -74,9 +82,14 @@ public class WebMvcApplicationConfig extends WebMvcConfigurerAdapter implements 
         LOG.info(sb.toString());
     }
 
+    @Bean
+    public AnnotationBasedProcessorInterceptor getAnnotationBasedProcessorInterceptor() {
+        return new AnnotationBasedProcessorInterceptor();
+    }
 
     @Override
     public void setResourceLoader(ResourceLoader resourceLoader) {
         this.resourceLoader = resourceLoader;
     }
+
 }

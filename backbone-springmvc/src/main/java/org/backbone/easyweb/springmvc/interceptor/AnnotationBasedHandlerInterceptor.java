@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * @author bianliang (04/12/2017)
  */
- abstract class AnnotationBasedHandlerInterceptor implements HandlerInterceptor, Ordered {
+ public abstract class AnnotationBasedHandlerInterceptor implements HandlerInterceptor, Ordered {
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {

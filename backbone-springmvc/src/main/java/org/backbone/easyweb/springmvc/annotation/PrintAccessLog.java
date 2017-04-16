@@ -1,16 +1,15 @@
 package org.backbone.easyweb.springmvc.annotation;
 
-import org.backbone.easyweb.springmvc.interceptor.PrintAccessLogInterceptor;
+import org.backbone.easyweb.springmvc.interceptor.AccessLogInterceptor;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.*;
 
 /**
  * @author bianliang (04/11/2017)
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Interceptor(value = PrintAccessLogInterceptor.class, loadFromContainer = true)
+@Target({ElementType.TYPE, ElementType.METHOD})
+@Interceptor(value = AccessLogInterceptor.class)
 public @interface PrintAccessLog {
 }

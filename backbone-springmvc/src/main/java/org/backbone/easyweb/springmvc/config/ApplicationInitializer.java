@@ -64,7 +64,7 @@ public class ApplicationInitializer extends AbstractAnnotationConfigDispatcherSe
     protected WebApplicationContext createRootApplicationContext() {
         AnnotationConfigWebApplicationContext applicationContext = (AnnotationConfigWebApplicationContext) super.createRootApplicationContext();
         if (applicationContext != null)
-            applicationContext.setDisplayName("Root AnnotationConfigWebApplicationContext");
+            applicationContext.setDisplayName("Root WebMvcApplicationConfig");
         return applicationContext;
     }
 
@@ -72,7 +72,7 @@ public class ApplicationInitializer extends AbstractAnnotationConfigDispatcherSe
     protected WebApplicationContext createServletApplicationContext() {
         AnnotationConfigWebApplicationContext applicationContext = (AnnotationConfigWebApplicationContext) super.createServletApplicationContext();
         if (applicationContext != null)
-            applicationContext.setDisplayName("Servlet AnnotationConfigWebApplicationContext");
+            applicationContext.setDisplayName("DispatcherServlet WebMvcApplicationConfig");
         return applicationContext;
     }
 
@@ -88,6 +88,6 @@ public class ApplicationInitializer extends AbstractAnnotationConfigDispatcherSe
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class<?>[]{};
+        return new Class<?>[]{ServletApplicationConfig.class};
     }
 }

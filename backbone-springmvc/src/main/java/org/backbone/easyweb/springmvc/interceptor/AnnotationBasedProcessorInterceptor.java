@@ -37,7 +37,7 @@ public class AnnotationBasedProcessorInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        List<HandlerInterceptor> interceptors = getInterceptors(request, handler);
+        List<? extends HandlerInterceptor> interceptors = getInterceptors(request, handler);
         if (!CollectionUtils.isEmpty(interceptors)) {
             for (HandlerInterceptor interceptor : interceptors) {
                 boolean ret = interceptor.preHandle(request, response, handler);
@@ -49,7 +49,7 @@ public class AnnotationBasedProcessorInterceptor implements HandlerInterceptor {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        List<HandlerInterceptor> interceptors = getInterceptors(request, handler);
+        List<? extends HandlerInterceptor> interceptors = getInterceptors(request, handler);
         if (!CollectionUtils.isEmpty(interceptors)) {
             for (HandlerInterceptor interceptor : interceptors) {
                 interceptor.postHandle(request, response, handler, modelAndView);
@@ -59,7 +59,7 @@ public class AnnotationBasedProcessorInterceptor implements HandlerInterceptor {
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        List<HandlerInterceptor> interceptors = getInterceptors(request, handler);
+        List<? extends HandlerInterceptor> interceptors = getInterceptors(request, handler);
         if (!CollectionUtils.isEmpty(interceptors)) {
             for (HandlerInterceptor interceptor : interceptors) {
                 interceptor.afterCompletion(request, response, handler, ex);
@@ -67,23 +67,23 @@ public class AnnotationBasedProcessorInterceptor implements HandlerInterceptor {
         }
     }
 
-    private List<HandlerInterceptor> getInterceptors(HttpServletRequest request, Object handler) {
+    private List<? extends HandlerInterceptor> getInterceptors(HttpServletRequest request, Object handler) {
         if (handler instanceof HandlerMethod) {
             HandlerMethod hm = (HandlerMethod) handler;
 
-            Method method = hm.getMethod();
             Class<?> c = hm.getBeanType();
+            Method method = hm.getMethod();
 
-            List<HandlerInterceptor> list = interceptorCaches.get(method);
-            if (interceptorCaches == null) {
-                list = searchInterceptors(c, method, request);
+            List<? extends HandlerInterceptor> interceptors = interceptorCaches.get(method);
+            if (interceptors == null) {
+                interceptors = searchInterceptors(c, method, request);
             }
-            return list;
+            return interceptors;
         }
         return null;
     }
 
-    private List<HandlerInterceptor> searchInterceptors(Class<?> clazz, Method method, HttpServletRequest request) {
+    private List<? extends HandlerInterceptor> searchInterceptors(Class<?> clazz, Method method, HttpServletRequest request) {
         // search class
         Annotation[] annotations = clazz.getAnnotations();
         List<HandlerInterceptor> list = instantiateInterceptors(request, annotations);
@@ -110,11 +110,14 @@ public class AnnotationBasedProcessorInterceptor implements HandlerInterceptor {
 
         // print log
         if (!list.isEmpty()) {
-            StringBuffer log = new StringBuffer("Handler interceptors : class=" + clazz.getSimpleName() + ",method=" + method + "[");
+            StringBuilder log = new StringBuilder("Handler interceptors : class=" + clazz.getSimpleName() + ",method=" + method + "[");
             for (int i = 0; i < list.size(); i++) {
-                log.append(list.get(i).getClass().getCanonicalName() + ",");
+                log.append(list.get(i).getClass().getCanonicalName());
+                if (i < list.size() - 1)
+                    log.append(",");
             }
-            LOG.info(log.append("]").toString());
+            log.append("]");
+            LOG.info(log.toString());
         }
 
         interceptorCaches.put(method, list);

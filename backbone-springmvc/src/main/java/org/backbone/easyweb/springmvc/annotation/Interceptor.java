@@ -5,7 +5,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import java.lang.annotation.*;
 
 /**
- * This annotation used to annotate an annatation serve as an interceptor configuration.
+ * This annotation used to annotate an annotation serve as an interceptor configuration.
  * @author bianliang (02/09/2017)
  * @since 0.0.1
  */

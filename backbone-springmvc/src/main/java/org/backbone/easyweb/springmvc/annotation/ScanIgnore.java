@@ -6,7 +6,7 @@ import java.lang.annotation.*;
  * @author bianliang (04/09/2017)
  */
 @Documented
-@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
 public @interface ScanIgnore {
 }
