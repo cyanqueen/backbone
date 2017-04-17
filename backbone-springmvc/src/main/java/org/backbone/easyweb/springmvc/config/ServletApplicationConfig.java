@@ -12,6 +12,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import javax.annotation.PostConstruct;
 
 /**
+ * @author mayanjun
  * @author bianliang (04/13/2017)
  */
 @Configuration

@@ -17,6 +17,7 @@ import java.util.Map;
 /**
  * ApplicationInitializer
  *
+ * @author mayanjun
  * @author bianliang (04/08/2017)
  */
 public class ApplicationInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {

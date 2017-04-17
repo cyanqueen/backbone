@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * @author mayanjun
  * @author bianliang (04/09/2017)
  */
 @Configuration
