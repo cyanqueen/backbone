@@ -166,7 +166,7 @@ public class AnnotationBasedProcessorInterceptor implements HandlerInterceptor {
                 }
                 if (inc != null) {
                     interceptors.add(inc);
-                    LOG.info("Interceptor instantiated : " + inc.getClass().getCanonicalName() + (", from" + from + " by " + by));
+                    LOG.info("Interceptor instantiated : " + inc.getClass().getCanonicalName() + (", from " + from + " by " + by));
                 }
 
             }
