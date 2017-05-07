@@ -18,7 +18,7 @@ public class AccessLogInterceptor extends AnnotationBasedHandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         LOG.info("Start print access log");
-        return false;
+        return true;
     }
 
     @Override

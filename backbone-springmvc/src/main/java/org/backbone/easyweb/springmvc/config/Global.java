@@ -20,4 +20,9 @@ public class Global {
      */
     public static final String DEFAULT_SPRING_SCAN_PACKAGES = "org.backbone";
 
+    /**
+     * 默认spring扫描的bean
+     */
+    public static final String DEFAULT_SPRING_SCAN_XML = "spring/spring-config-*.xml";
+
 }

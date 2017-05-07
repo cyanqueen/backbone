@@ -6,4 +6,6 @@ package org.backbone.easyweb.springmvc.config;
 public class WebPropertyNames {
 
     public static final String SPRING_SCAN_PACKAGES = "spring.scan.packages";
+
+    public static final String SPRING_SCAN_XML = "spring.scan.xml";
 }
