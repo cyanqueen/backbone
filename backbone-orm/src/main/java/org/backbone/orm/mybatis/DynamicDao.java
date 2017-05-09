@@ -1,8 +1,7 @@
 package org.backbone.orm.mybatis;
 
-import org.backbone.core.bean.StandardEntity;
+import org.backbone.core.bean.PersistableEntity;
 import org.backbone.core.search.Search;
-import org.backbone.orm.EntityAccessor;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Required;
 
@@ -11,7 +10,7 @@ import java.util.List;
 /**
  * @author bianliang (05/07/2017)
  */
-public class DynamicDao implements EntityAccessor, DatabaseRouterDao, InitializingBean {
+public class DynamicDao implements DatabaseRouterDao, InitializingBean {
 
     private DatabaseRouter router;
 
@@ -31,47 +30,47 @@ public class DynamicDao implements EntityAccessor, DatabaseRouterDao, Initializi
     }
 
     @Override
-    public <T extends StandardEntity> List<T> query(Search<T> search) {
+    public <T extends PersistableEntity> List<T> query(Search<T> search) {
         return null;
     }
 
     @Override
-    public <T extends StandardEntity> T queryOne(Search<T> search) {
+    public <T extends PersistableEntity> T queryOne(Search<T> search) {
         return null;
     }
 
     @Override
-    public <T extends StandardEntity> T getInclude(T t, String... includes) {
+    public <T extends PersistableEntity> T getInclude(T t, String... includes) {
         return null;
     }
 
     @Override
-    public <T extends StandardEntity> T getExclude(T t, String... excludes) {
+    public <T extends PersistableEntity> T getExclude(T t, String... excludes) {
         return null;
     }
 
     @Override
-    public <T extends StandardEntity> int update(T t) {
+    public int update(PersistableEntity entity) {
         return 0;
     }
 
     @Override
-    public <T extends StandardEntity> int update(T t, Search<T> search) {
+    public int update(PersistableEntity entity, Search<? extends PersistableEntity> search) {
         return 0;
     }
 
     @Override
-    public <T extends StandardEntity> Long save(T t) {
+    public Long save(PersistableEntity entity) {
         return null;
     }
 
     @Override
-    public <T extends StandardEntity> int delete(T t) {
+    public int delete(PersistableEntity entity) {
         return 0;
     }
 
     @Override
-    public <T extends StandardEntity> int delete(Search<T> search) {
+    public int delete(Search<? extends PersistableEntity> search) {
         return 0;
     }
 }

@@ -6,11 +6,23 @@ import java.util.Date;
 /**
  * @author bianliang (05/09/2017)
  */
-public class StandardEntity implements Serializable {
+public abstract class StandardEntity implements PersistableEntity {
+
+    private static final long serialVersionUID = 4316289291606068159L;
+
+    private Long id;
 
     private Date createTime;
 
     private Date updateTime;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Date getCreateTime() {
         return createTime;
