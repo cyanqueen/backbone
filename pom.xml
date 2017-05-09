@@ -9,7 +9,7 @@
     <packaging>pom</packaging>
     <version>0.0.1-SNAPSHOT</version>
     <modules>
-        <module>backbone-springmvc</module>
+        <module>backbone-webmvc</module>
         <module>backbone-orm</module>
         <module>backbone-core</module>
     </modules>
