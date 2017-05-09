@@ -11,6 +11,7 @@
     <modules>
         <module>backbone-springmvc</module>
         <module>backbone-orm</module>
+        <module>backbone-core</module>
     </modules>
 
     <description>
@@ -73,6 +74,11 @@
             <dependency>
                 <groupId>com.github.cyanqueen</groupId>
                 <artifactId>backbone-orm</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.cyanqueen</groupId>
+                <artifactId>backbone-core</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
 
