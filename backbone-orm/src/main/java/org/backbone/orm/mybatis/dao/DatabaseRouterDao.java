@@ -1,6 +1,7 @@
-package org.backbone.orm.mybatis;
+package org.backbone.orm.mybatis.dao;
 
 import org.backbone.orm.EntityAccessor;
+import org.backbone.orm.mybatis.DatabaseRouter;
 
 /**
  * @author bianliang (05/07/2017)

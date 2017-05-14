@@ -14,15 +14,17 @@ public interface EntityAccessor {
 
     <T extends PersistableEntity> T queryOne(Search<T> search);
 
-    <T extends PersistableEntity> T getInclude(T t, String ... includes);
+    <T extends PersistableEntity> T getInclude(PersistableEntity entity, String ... includes);
 
-    <T extends PersistableEntity> T getExclude(T t, String ... excludes);
+    <T extends PersistableEntity> T getExclude(PersistableEntity entity, String ... excludes);
 
     int update(PersistableEntity entity);
 
     int update(PersistableEntity entity, Search<? extends PersistableEntity> search);
 
     Long save(PersistableEntity entity);
+
+    List<Long> batchSave(List<? extends PersistableEntity> list);
 
     int delete(PersistableEntity entity);
 
