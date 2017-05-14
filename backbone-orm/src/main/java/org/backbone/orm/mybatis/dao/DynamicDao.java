@@ -5,9 +5,9 @@ import org.backbone.core.bean.PersistableEntity;
 import org.backbone.core.search.Search;
 import org.backbone.orm.mybatis.DatabaseRouter;
 import org.backbone.orm.mybatis.DynamicMapper;
-import org.backbone.orm.parse.MysqlSearchParser;
-import org.backbone.orm.parse.SQLParameter;
-import org.backbone.orm.parse.SearchParser;
+import org.backbone.orm.parser.MysqlSearchParser;
+import org.backbone.orm.parser.SQLParameter;
+import org.backbone.orm.parser.SearchParser;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Required;
 

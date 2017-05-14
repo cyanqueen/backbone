@@ -1,7 +1,7 @@
 package org.backbone.orm.mybatis;
 
 import org.apache.ibatis.annotations.Param;
-import org.backbone.orm.parse.SQLParameter;
+import org.backbone.orm.parser.SQLParameter;
 
 /**
  * @author bianliang (05/13/2017)
