@@ -1,7 +1,7 @@
 package org.backbone.orm;
 
 import org.backbone.core.bean.PersistableEntity;
-import org.backbone.core.search.Search;
+import org.backbone.orm.search.Search;
 
 import java.util.List;
 

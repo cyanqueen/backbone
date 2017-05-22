@@ -1,6 +1,6 @@
 package org.backbone.orm.parser;
 
-import org.backbone.core.search.Search;
+import org.backbone.orm.search.Search;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

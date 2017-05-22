@@ -2,14 +2,16 @@ package org.backbone.orm.mybatis.dao;
 
 import org.apache.ibatis.session.SqlSession;
 import org.backbone.core.bean.PersistableEntity;
-import org.backbone.core.search.Search;
 import org.backbone.orm.mybatis.DatabaseRouter;
 import org.backbone.orm.mybatis.DynamicMapper;
 import org.backbone.orm.parser.MysqlSearchParser;
 import org.backbone.orm.parser.SQLParameter;
 import org.backbone.orm.parser.SearchParser;
+import org.backbone.orm.search.Search;
+import org.backbone.orm.search.SearchBuilder;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -42,18 +44,30 @@ public class DynamicDao implements DatabaseRouterDao, InitializingBean {
 
     @Override
     public <T extends PersistableEntity> T queryOne(Search<T> search) {
+        if (search.getLimit() > 1) search.setLimit(1);
+        List<T> list = query(search);
+        if (!CollectionUtils.isEmpty(list)) {
+            return list.get(0);
+        }
         return null;
     }
 
     @Override
     public <T extends PersistableEntity> T getInclude(PersistableEntity entity, String... includes) {
-        Search<T> search = null;
+        Search<T> search = SearchBuilder.custom((Class<T>) entity.getClass())
+                .addEquivalent("id", entity.getId())
+                .includeFields(includes)
+                .build();
         return this.queryOne(search);
     }
 
     @Override
     public <T extends PersistableEntity> T getExclude(PersistableEntity entity, String... excludes) {
-        return null;
+        Search<T> search = SearchBuilder.custom((Class<T>) entity.getClass())
+                .addEquivalent("id", entity.getId())
+                .excludeFields(excludes)
+                .build();
+        return this.queryOne(search);
     }
 
     @Override
