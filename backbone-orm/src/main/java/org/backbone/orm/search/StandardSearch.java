@@ -15,6 +15,7 @@ public class StandardSearch<T extends PersistableEntity> implements Search {
     private List<String> includeFields;
     private List<String> excludeFields;
     private List<Comparator> comparators;
+    private Sort sort;
 
     public StandardSearch() {
         this.comparators = new ArrayList<Comparator>();
@@ -67,6 +68,17 @@ public class StandardSearch<T extends PersistableEntity> implements Search {
     @Override
     public List<String> getExcludeFields() {
         return this.excludeFields;
+    }
+
+    @Override
+    public Search<T> setSort(Sort sort) {
+        this.sort = sort;
+        return this;
+    }
+
+    @Override
+    public Sort getSort() {
+        return this.sort;
     }
 
 

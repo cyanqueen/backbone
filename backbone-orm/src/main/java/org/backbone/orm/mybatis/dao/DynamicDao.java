@@ -45,7 +45,7 @@ public class DynamicDao implements DatabaseRouterDao, InitializingBean {
     @Override
     public <T extends PersistableEntity> T queryOne(Search<T> search) {
         if (search.getLimit() > 1) search.setLimit(1);
-        List<T> list = query(search);
+        List<T> list = this.query(search);
         if (!CollectionUtils.isEmpty(list)) {
             return list.get(0);
         }

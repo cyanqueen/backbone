@@ -25,4 +25,8 @@ public interface Search<T extends Serializable> extends Serializable {
     List<String> getIncludeFields();
 
     List<String> getExcludeFields();
+
+    Search<T> setSort(Sort sort);
+
+    Sort getSort();
 }

@@ -46,4 +46,9 @@ public class SearchBuilder<T extends PersistableEntity> {
         search.setExcludeFields(Arrays.asList(excludes));
         return this;
     }
+
+    public SearchBuilder<T> orderBy(String name, SortDirection sortDirection) {
+        search.setSort(new Sort(name, sortDirection));
+        return this;
+    }
 }

@@ -15,9 +15,9 @@ public class SQLParameter<T extends Serializable> extends HashMap implements Ser
     private static final Logger LOG = LoggerFactory.getLogger(SQLParameter.class);
 
     private String selectClause;
-    private String tableNames;
+    private String tableName;
     private String whereClause;
-    private String groupClause;
+    private String orderByClause;
     private String limitClause;
 
     private Class<T> resultType;
@@ -32,9 +32,9 @@ public class SQLParameter<T extends Serializable> extends HashMap implements Ser
         StringBuffer sql =  new StringBuffer("select ")
                 .append(selectClause)
                 .append(" from ")
-                .append(tableNames)
+                .append(tableName)
                 .append(whereClause);
-        if (groupClause != null) sql.append(groupClause);
+        if (orderByClause != null) sql.append(orderByClause);
         if (limitClause != null) sql.append(limitClause);
 
         LOG.debug("Preparing to execute sql statement is:{}", sql);
@@ -65,12 +65,12 @@ public class SQLParameter<T extends Serializable> extends HashMap implements Ser
         this.selectClause = selectClause;
     }
 
-    public String getTableNames() {
-        return tableNames;
+    public String getTableName() {
+        return tableName;
     }
 
-    public void setTableNames(String tableNames) {
-        this.tableNames = tableNames;
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
     }
 
     public String getWhereClause() {
@@ -81,12 +81,12 @@ public class SQLParameter<T extends Serializable> extends HashMap implements Ser
         this.whereClause = whereClause;
     }
 
-    public String getGroupClause() {
-        return groupClause;
+    public String getOrderByClause() {
+        return orderByClause;
     }
 
-    public void setGroupClause(String groupClause) {
-        this.groupClause = groupClause;
+    public void setOrderByClause(String orderByClause) {
+        this.orderByClause = orderByClause;
     }
 
     public String getLimitClause() {

@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * @author bianliang (05/09/2017)
  */
-public abstract class StandardEntity implements PersistableEntity {
+public abstract class EntityBean implements PersistableEntity {
 
     private static final long serialVersionUID = 4316289291606068159L;
 
