@@ -1,6 +1,7 @@
 package org.backbone.orm.search;
 
 import org.backbone.core.bean.PersistableEntity;
+import org.backbone.orm.search.comparator.Comparator;
 
 import java.util.ArrayList;
 import java.util.List;

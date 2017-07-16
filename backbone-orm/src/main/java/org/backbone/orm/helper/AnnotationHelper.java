@@ -3,6 +3,7 @@ package org.backbone.orm.helper;
 import org.backbone.core.annotation.Column;
 import org.backbone.core.annotation.Component;
 import org.backbone.core.annotation.PrimaryKey;
+import org.backbone.core.annotation.Table;
 import org.backbone.core.util.ClassUtils;
 import org.backbone.core.util.SqlUtils;
 
@@ -58,7 +59,7 @@ public class AnnotationHelper {
                     map.put(field.getName(), holder);
                     if (primaryKey != null) {
                         if (duplicatedKey) {
-                            throw new IllegalArgumentException("Duplicated primary key @PrimaryKey in(" + cls.getCanonicalName() + ")");
+                            throw new IllegalArgumentException(String.format("Duplicated primary key @PrimaryKey in(%s)", cls.getCanonicalName()));
                         }
                         duplicatedKey = true;
                     }
@@ -76,13 +77,29 @@ public class AnnotationHelper {
                             }
                         }
                         if (!found) {
-                            throw new IllegalArgumentException("Reference field specified to '" + column.referenceField() + "' but no such field found in " + refClass);
+                            throw new IllegalArgumentException(String.format("Reference field specified to '%s' but no such field found in %s", column.referenceField(), refClass));
                         }
                     }
                 } else {
                     Component component = field.getAnnotation(Component.class);
                     if (component != null) {
-                        // todo Component
+                        String comOgnl = ognl;
+                        if (comOgnl == null) comOgnl = field.getName();
+                        else comOgnl = comOgnl + "." + field.getName();
+                        Class<?> comCls = field.getDeclaringClass();
+                        Map<String, AnnotationHolder> comMap = getAllColumnAnnotationHoldersInternal(comCls, comOgnl);
+                        if (!comMap.isEmpty()) {
+                            String[] excludes = component.excludes();
+                            if (excludes != null && excludes.length > 0) {
+                                List<String> exludeFields = Arrays.asList(excludes);
+                                Iterator<Map.Entry<String, AnnotationHolder>> iterator = comMap.entrySet().iterator();
+                                while (iterator.hasNext()) {
+                                    Map.Entry<String, AnnotationHolder> next = iterator.next();
+                                    if (exludeFields.contains(next.getValue().getField().getName())) iterator.remove();
+                                }
+                            }
+                            map.putAll(comMap);
+                        }
                     }
                 }
             }
@@ -103,5 +120,15 @@ public class AnnotationHelper {
 
     public static AnnotationHolder getAnnotationHolder(String field, Class<?> beanType) {
         return null;
+    }
+
+    public static String getTableName(Class<?> clazz) {
+        Table table = clazz.getAnnotation(Table.class);
+        if (table == null) throw new IllegalArgumentException("Not found @Table in class type [" + clazz + "]");
+        String tableName = table.value();
+        if (SqlUtils.isBlank(tableName)) {
+            tableName = "t_" + clazz.getSimpleName().toLowerCase();
+        }
+        return tableName;
     }
 }

@@ -1,6 +1,6 @@
 package org.backbone.orm.parser;
 
-import org.backbone.core.annotation.Column;
+import org.backbone.core.annotation.Table;
 import org.backbone.core.util.SqlUtils;
 import org.backbone.orm.helper.AnnotationHelper;
 import org.backbone.orm.helper.AnnotationHolder;
@@ -8,7 +8,7 @@ import org.backbone.orm.search.Search;
 import org.backbone.orm.search.Sort;
 
 import java.io.Serializable;
-import java.lang.reflect.Field;
+import java.lang.annotation.Annotation;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -39,30 +39,51 @@ public abstract class BaseParser implements SearchParser {
 
     protected Collection<String> getSelectFields(Search<? extends Serializable> search) {
         Class<?> beanType = search.getBeanType();
-        Collection<String> allFields = getAllFields(beanType);
+        Collection<String> allFields0 = getAllFields(beanType);
+
+        Collection<String> allFields = new ArrayList<String>(allFields0);
 
         List<String> includeFields = search.getIncludeFields();
-        // todo includeFields and excludeFields
-        /*if (includeFields != null && includeFields.size() > 0) {
-             includeFields = (List<String>) allFields;
-            Iterator<String> iterator = includeFields.iterator();
-            while (iterator.hasNext()) {
-                String includeField = iterator.next();
-                AnnotationHolder holder = AnnotationHelper.getAnnotationHolder(includeField, beanType);
-                if (holder == null) includeFields.remove(includeField);
+        if (includeFields != null && includeFields.size() > 0) {
+            Map<String, String> fs = FIELDS_CACHE.get(beanType);
+            Collection<String> fields = new ArrayList<String>();
+            for (String includeField : includeFields) {
+                String field = fs.get(includeField);
+                if (field != null) {
+                    fields.add(includeField);
+                }
             }
+            allFields = fields;
         }
 
         List<String> excludeFields = search.getExcludeFields();
         if (excludeFields != null && excludeFields.size() > 0) {
-            Iterator<String> iterator = excludeFields.iterator();
-            while (iterator.hasNext()) {
-                String excludeField = iterator.next();
-                AnnotationHolder holder = AnnotationHelper.getAnnotationHolder(excludeField, beanType);
-                if (holder != null) includeFields.remove(excludeField);
+            Collection<String> excludeParsedFields = new ArrayList<String>();
+            for (String name : excludeFields) {
+                String parsedName = getSelectField(name, search, false);
+                excludeParsedFields.add(parsedName);
             }
-        }*/
-        return includeFields;
+            allFields.removeAll(excludeParsedFields);
+        }
+        return allFields;
+    }
+
+    private String getSelectField(String field, Search<? extends Serializable> search, boolean inWhere) {
+        Class<?> beanType = search.getBeanType();
+        AnnotationHolder ah = AnnotationHelper.getAnnotationHolder(field, beanType);
+        if (ah == null) throw new IllegalArgumentException(" Can't find field `"+ field +"` in class["+ beanType +"]");
+
+        String name = ah.getField().getName();
+        if (!inWhere) {
+            String ref = ah.getColumn().referenceField();
+            if (SqlUtils.isNotBlank(ah.getOgnl())) {
+                name = "`" + name + "` as `" + ah.getOgnl() + "." + ah.getField().getName() + "`";
+            } else if (SqlUtils.isNotBlank(ref)) {
+                name = "`" + name + "` as `" + ah.getField().getName() + "." + ref + "`";
+            }
+        }
+
+        return name;
     }
 
     private Collection<String> getAllFields(Class<?> beanType) {
@@ -81,7 +102,7 @@ public abstract class BaseParser implements SearchParser {
                 if (!SqlUtils.isBlank(ognl)) {
                     as = ognl + "." + as;
                     name = name + " AS `" + as + "`";
-                } else if (!SqlUtils.isBlank(ref)){
+                } else if (!SqlUtils.isBlank(ref)) {
                     String refAs = holder.getField().getName() + "." + ref;
                     name = name + " AS `" + refAs + "`";
                     map.put(refAs, name);
@@ -97,7 +118,7 @@ public abstract class BaseParser implements SearchParser {
         if (selectFields != null && selectFields.size() > 0) {
             String[] fields = selectFields.toArray(new String[selectFields.size()]);
             StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < fields.length; i ++) {
+            for (int i = 0; i < fields.length; i++) {
                 sb.append(fields[i]);
                 if (i < fields.length - 1) sb.append(sep);
             }
@@ -107,9 +128,9 @@ public abstract class BaseParser implements SearchParser {
     }
 
     protected void parseFrom(SQLParameter sqlParameter, Search search) {
-        String tableNames = "";
-
-        sqlParameter.setTableName(tableNames);
+        Class<?> beanType = search.getBeanType();
+        String tableName = AnnotationHelper.getTableName(beanType);
+        sqlParameter.setTableName(tableName);
     }
 
     protected void parseWhereClause(SQLParameter sqlParameter, Search search) {

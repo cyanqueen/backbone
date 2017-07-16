@@ -1,5 +1,7 @@
 package org.backbone.orm.search;
 
+import org.backbone.orm.search.comparator.Comparator;
+
 import java.io.Serializable;
 import java.util.List;
 
