@@ -1,6 +1,5 @@
 package org.backbone.orm.parser;
 
-import org.backbone.core.annotation.Table;
 import org.backbone.core.util.SqlUtils;
 import org.backbone.orm.helper.AnnotationHelper;
 import org.backbone.orm.helper.AnnotationHolder;
@@ -8,7 +7,6 @@ import org.backbone.orm.search.Search;
 import org.backbone.orm.search.Sort;
 
 import java.io.Serializable;
-import java.lang.annotation.Annotation;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 

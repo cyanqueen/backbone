@@ -50,7 +50,7 @@ public class AnnotationHelper {
         Collection<Field> fields = ClassUtils.getAllFields(cls);
         Map<String, AnnotationHolder> map = new HashMap<String, AnnotationHolder>();
         if (fields != null && fields.size() > 0) {
-            boolean duplicatedKey = false;
+            boolean meetPrimaryKey = false;
             for (Field field : fields) {
                 Column column = field.getAnnotation(Column.class);
                 PrimaryKey primaryKey = field.getAnnotation(PrimaryKey.class);
@@ -58,10 +58,10 @@ public class AnnotationHelper {
                     AnnotationHolder holder = new AnnotationHolder(field, column, primaryKey, null);
                     map.put(field.getName(), holder);
                     if (primaryKey != null) {
-                        if (duplicatedKey) {
+                        if (meetPrimaryKey) {
                             throw new IllegalArgumentException(String.format("Duplicated primary key @PrimaryKey in(%s)", cls.getCanonicalName()));
                         }
-                        duplicatedKey = true;
+                        meetPrimaryKey = true;
                     }
                     String refField = column.referenceField();
                     boolean found = false;
@@ -112,13 +112,30 @@ public class AnnotationHelper {
         if (SqlUtils.isBlank(columnName) || "#".equals(columnName)) {
             columnName = holder.getField().getName();
         }
-        if (holder.getOgnl() != null) {
+        if (SqlUtils.isNotBlank(columnName)) {
             columnName = holder.getOgnl() + "." + columnName;
         }
         return SqlUtils.hump(columnName);
     }
 
     public static AnnotationHolder getAnnotationHolder(String field, Class<?> beanType) {
+        Map<String, AnnotationHolder> map = getAnnotationHoldersMap(beanType);
+        AnnotationHolder annotationHolder = map.get(field);
+        if (annotationHolder == null) {
+            annotationHolder = smartSearch(field, map);
+        }
+        return annotationHolder;
+    }
+
+    private static AnnotationHolder smartSearch(String field, Map<String, AnnotationHolder> map) {
+        int lastIndex = field.lastIndexOf(".");
+        if (lastIndex > 0) {
+            String prefixField = field.substring(0, lastIndex);
+            String suffixField = field.substring(lastIndex + 1);
+            AnnotationHolder ah = map.get(prefixField);
+            if (ah != null && suffixField.equalsIgnoreCase(ah.getColumn().referenceField())) return ah;
+            return smartSearch(prefixField, map);
+        }
         return null;
     }
 
