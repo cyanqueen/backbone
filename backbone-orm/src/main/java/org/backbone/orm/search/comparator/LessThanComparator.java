@@ -9,10 +9,10 @@ public class LessThanComparator extends SingleComparator {
     private boolean include;
 
     public LessThanComparator(String name, Object value, LogicalOperator lo) {
-        this(name, value, lo, false);
+        this(name, value, false, lo);
     }
 
-    public LessThanComparator(String name, Object value, LogicalOperator lo, boolean include) {
+    public LessThanComparator(String name, Object value, boolean include, LogicalOperator lo) {
         super(name, value, lo);
         this.include = include;
         if (name == null) throw new IllegalArgumentException("name can't be null");

@@ -3,6 +3,7 @@ package org.backbone.orm.search;
 import org.backbone.core.bean.PersistableEntity;
 import org.backbone.orm.search.comparator.Comparator;
 import org.backbone.orm.search.comparator.EquivalentComparator;
+import org.backbone.orm.search.comparator.LogicalOperator;
 import org.springframework.util.Assert;
 
 import java.util.Arrays;
@@ -35,12 +36,12 @@ public class SearchBuilder<T extends PersistableEntity> {
     }
 
     public SearchBuilder<T> addEquivalent(String name, Object value) {
-        search.addComparator(new EquivalentComparator(name, value, Comparator.DEFAULT_LOGICAL_OPERATOR));
+        search.addComparator(new EquivalentComparator(name, value, LogicalOperator.AND));
         return this;
     }
 
     public SearchBuilder<T> addEquivalent(String name, Object value, boolean reserve) {
-        search.addComparator(new EquivalentComparator(name, value, Comparator.DEFAULT_LOGICAL_OPERATOR, reserve));
+        search.addComparator(new EquivalentComparator(name, value, reserve, LogicalOperator.AND));
         return this;
     }
 

@@ -9,10 +9,10 @@ public class LikeComparator extends SingleComparator {
     private boolean reverse;
 
     public LikeComparator(String name, Object value, LogicalOperator lo) {
-        this(name, value, lo, false);
+        this(name, value, false, lo);
     }
 
-    public LikeComparator(String name, Object value, LogicalOperator lo, boolean reverse) {
+    public LikeComparator(String name, Object value, boolean reverse, LogicalOperator lo) {
         super(name, value, lo);
         this.reverse = reverse;
         if (name == null) throw new IllegalArgumentException("name can't be null");

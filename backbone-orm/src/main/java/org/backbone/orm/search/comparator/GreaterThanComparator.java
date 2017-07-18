@@ -9,10 +9,10 @@ public class GreaterThanComparator extends SingleComparator {
     private boolean include;
 
     public GreaterThanComparator(String name, Object value, LogicalOperator lo) {
-        this(name, value, lo, false);
+        this(name, value, false, lo);
     }
 
-    public GreaterThanComparator(String name, Object value, LogicalOperator lo, boolean include) {
+    public GreaterThanComparator(String name, Object value, boolean include, LogicalOperator lo) {
         super(name, value, lo);
         this.include = include;
         if (name == null) throw new IllegalArgumentException("name can't be null");
