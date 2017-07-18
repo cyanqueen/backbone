@@ -29,7 +29,7 @@ public class InComparator extends SingleComparator {
         } else {
             length = ((Collection<?>)value).size();
         }
-        if (length == 0) throw new IllegalArgumentException("value(Array or Collection) must not be empty");
+        if (length == 0) throw new IllegalArgumentException("Array must not be empty");
     }
 
     @Override
