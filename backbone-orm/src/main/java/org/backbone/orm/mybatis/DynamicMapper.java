@@ -15,12 +15,12 @@ public interface DynamicMapper<T extends Serializable> {
 
     String PARAM_ENTITY_NAME = "bean";
 
-    @UpdateProvider( type = DynamicSearchBuilder.class, method = "buildUpdate")
+    @UpdateProvider( type = DynamicQueryBuilder.class, method = "buildUpdate")
     int update(@Param(PARAM_ENTITY_NAME) T bean);
 
-    @UpdateProvider(type = DynamicSearchBuilder.class, method = "buildSearchUpdate")
+    @UpdateProvider(type = DynamicQueryBuilder.class, method = "buildSearchUpdate")
     int updateBySearch(@Param(PARAM_ENTITY_NAME) SQLParameter<T> sqlParameter);
 
-    @SelectProvider(type = DynamicSearchBuilder.class, method = "buildQuery")
+    @SelectProvider(type = DynamicQueryBuilder.class, method = "buildQuery")
     List<T> query(@Param(PARAM_ENTITY_NAME) SQLParameter<T> sqlParameter);
 }

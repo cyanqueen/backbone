@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * @author bianliang (05/21/2017)
  */
-public class StandardSearch<T extends PersistableEntity> implements Search {
+public class StandardQuery<T extends PersistableEntity> implements Query {
 
     private Class<T> beanType;
     private int limit;
@@ -18,7 +18,7 @@ public class StandardSearch<T extends PersistableEntity> implements Search {
     private List<Comparator> comparators;
     private Sort sort;
 
-    public StandardSearch() {
+    public StandardQuery() {
         this.comparators = new ArrayList<Comparator>();
     }
 
@@ -28,7 +28,7 @@ public class StandardSearch<T extends PersistableEntity> implements Search {
     }
 
     @Override
-    public Search<T> setLimit(int limit) {
+    public Query<T> setLimit(int limit) {
         this.limit = limit;
         return this;
     }
@@ -38,25 +38,25 @@ public class StandardSearch<T extends PersistableEntity> implements Search {
     }
 
     @Override
-    public Search<T> setExcludeFields(List excludeFields) {
+    public Query<T> setExcludeFields(List excludeFields) {
         this.excludeFields = excludeFields;
         return this;
     }
 
     @Override
-    public Search<T> setIncludeFields(List includeFields) {
+    public Query<T> setIncludeFields(List includeFields) {
         this.includeFields = includeFields;
         return this;
     }
 
     @Override
-    public Search<T> addComparator(Comparator comparator) {
+    public Query<T> addComparator(Comparator comparator) {
         if (comparator != null) comparators.add(comparator);
         return this;
     }
 
     @Override
-    public Search<T> setBeanType(Class beanType) {
+    public Query<T> setBeanType(Class beanType) {
         this.beanType = beanType;
         return this;
     }
@@ -72,7 +72,7 @@ public class StandardSearch<T extends PersistableEntity> implements Search {
     }
 
     @Override
-    public Search<T> setSort(Sort sort) {
+    public Query<T> setSort(Sort sort) {
         this.sort = sort;
         return this;
     }

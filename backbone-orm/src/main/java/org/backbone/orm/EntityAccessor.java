@@ -1,7 +1,7 @@
 package org.backbone.orm;
 
 import org.backbone.core.bean.PersistableEntity;
-import org.backbone.orm.search.Search;
+import org.backbone.orm.search.Query;
 
 import java.util.List;
 
@@ -10,9 +10,9 @@ import java.util.List;
  */
 public interface EntityAccessor {
 
-    <T extends PersistableEntity> List<T> query(Search<T> search);
+    <T extends PersistableEntity> List<T> query(Query<T> query);
 
-    <T extends PersistableEntity> T queryOne(Search<T> search);
+    <T extends PersistableEntity> T queryOne(Query<T> query);
 
     <T extends PersistableEntity> T getInclude(PersistableEntity entity, String ... includes);
 
@@ -20,7 +20,7 @@ public interface EntityAccessor {
 
     int update(PersistableEntity entity);
 
-    int update(PersistableEntity entity, Search<? extends PersistableEntity> search);
+    int update(PersistableEntity entity, Query<? extends PersistableEntity> query);
 
     Long save(PersistableEntity entity);
 
@@ -28,5 +28,5 @@ public interface EntityAccessor {
 
     int delete(PersistableEntity entity);
 
-    int delete(Search<? extends PersistableEntity> search);
+    int delete(Query<? extends PersistableEntity> query);
 }

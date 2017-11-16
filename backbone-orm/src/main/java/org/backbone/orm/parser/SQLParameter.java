@@ -1,6 +1,6 @@
 package org.backbone.orm.parser;
 
-import org.backbone.orm.search.Search;
+import org.backbone.orm.search.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,11 +21,11 @@ public class SQLParameter<T extends Serializable> extends HashMap implements Ser
     private String limitClause;
 
     private Class<T> resultType;
-    private Search<T> search;
+    private Query<T> query;
 
-    public SQLParameter(Search<T> search) {
+    public SQLParameter(Query<T> query) {
         super();
-        this.search = search;
+        this.query = query;
     }
 
     public String getSQL() {
@@ -49,12 +49,12 @@ public class SQLParameter<T extends Serializable> extends HashMap implements Ser
         this.resultType = resultType;
     }
 
-    public Search<T> getSearch() {
-        return search;
+    public Query<T> getQuery() {
+        return query;
     }
 
-    public void setSearch(Search<T> search) {
-        this.search = search;
+    public void setQuery(Query<T> query) {
+        this.query = query;
     }
 
     public String getSelectClause() {

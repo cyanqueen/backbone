@@ -6,7 +6,7 @@ import org.backbone.orm.parser.SQLParameter;
 /**
  * @author bianliang (05/13/2017)
  */
-public class DynamicSearchBuilder {
+public class DynamicQueryBuilder {
 
     public String buildUpdate(@Param(DynamicMapper.PARAM_ENTITY_NAME) Object bean) {
 
@@ -14,8 +14,8 @@ public class DynamicSearchBuilder {
     }
 
     public String buildQuery(@Param(DynamicMapper.PARAM_ENTITY_NAME) SQLParameter<?> sqlParameter) {
-
-        return null;
+        String sql = sqlParameter.getSQL();
+        return sql;
     }
 
 }
